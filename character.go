@@ -23,7 +23,7 @@ type Attributes struct {
 
 type Weapon struct {
 	Name string `json:"name"`
-	Attribute int16 `json:"STR"`
+	Attribute string `json:"attribute"`
 	DamageType string `json:"damageType"`
 	DamageRoll string `json:"damageRoll"`
 }

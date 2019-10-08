@@ -7,21 +7,21 @@ import (
 	"io/ioutil"
 )
 
-func getJSON(filename string) error {
+func getCharacter(filename string) (Character, error) {
 	jsonFile, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		return errors.New(fmt.Sprintf("failed to read file %v, %v", filename, err))
+		return Character{}, errors.New(fmt.Sprintf("failed to read file %v, %v", filename, err))
 	}
 
 	var character Character
 	err = json.Unmarshal(jsonFile, &character)
 
 	if err != nil {
-		return errors.New(fmt.Sprintf("failed to unmarshal JSON, %v", err))
+		return Character{}, errors.New(fmt.Sprintf("failed to unmarshal JSON, %v", err))
 	}
 
-	fmt.Printf("%v", character)
+	fmt.Printf("%v\n", character)
 
-	return nil
+	return character, nil
 }
