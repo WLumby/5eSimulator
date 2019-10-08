@@ -1,0 +1,25 @@
+{
+  "name": "John Palawin",
+  "race": "Human",
+  "class": "Paladin",
+  "level": 1,
+
+  "attributes": {
+    "STR": 14,
+    "DEX": 14,
+    "CON": 14,
+    "INT": 10,
+    "WIS": 10,
+    "CHA": 12
+  },
+
+  "armourClass": 16,
+  "health": 13,
+
+  "weapon": {
+      "name": "Flail",
+      "attribute": "STR",
+      "damageType": "Bludgeoning",
+      "damageRoll": "1d8"
+    }
+}
