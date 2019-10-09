@@ -4,7 +4,7 @@ type Character struct {
 	Name        string     `json:"name"`
 	Race        string     `json:"race"`
 	Class       string     `json:"class"`
-	Level       int16      `json:"level"`
+	Level       float64    `json:"level"`
 	Attributes  Attributes `json:"attributes"`
 	ArmourClass int16      `json:"armourClass"`
 	Health      int32      `json:"health"`

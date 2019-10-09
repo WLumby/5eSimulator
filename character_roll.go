@@ -4,11 +4,42 @@ import (
 	"math"
 )
 
-func rollWeaponDamage(character Character) int {
-	damageRoll := roll(character.Weapon.DamageRoll)
-	//fmt.Printf("damageRoll: %v\n", damageRoll)
-	return damageRoll + calculateAttributeMod(character, character.Weapon.Attribute)
+func rollWeapon(character Character) (int, int, string, bool) {
 
+	attackRoll, crit := rollAttack(character)
+	weaponDamage := rollWeaponDamage(character, crit)
+	damageType := character.Weapon.DamageType
+
+	return attackRoll, weaponDamage, damageType, crit
+}
+
+func rollWeaponDamage(character Character, crit bool) int {
+	critDamageRoll := 0
+
+	damageRoll := roll(character.Weapon.DamageRoll)
+	if crit {
+		critDamageRoll = roll(character.Weapon.DamageRoll)
+	}
+	return damageRoll + critDamageRoll + calculateAttributeMod(character, character.Weapon.Attribute)
+}
+
+func rollAttack(character Character) (int, bool) {
+	crit := false
+
+	d20Roll := roll("1d20")
+
+	if d20Roll == 20 {
+		crit = true
+	}
+
+	damageMod := calculateAttributeMod(character, character.Weapon.Attribute)
+	proficiency := calcProficiency(character)
+	return d20Roll + damageMod + proficiency, crit
+}
+
+func calcProficiency(character Character) int {
+	//unimplemented
+	return 2
 }
 
 func calculateAttributeMod(character Character, attribute string) int {
