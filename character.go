@@ -1,15 +1,14 @@
 package main
 
 type Character struct {
-	Name  string `json:"name"`
-	Race  string `json:"race"`
-	Class string `json:"class"`
-	Level int16 `json:"level"`
-	Attributes Attributes `json:"attributes"`
-	ArmourClass int16 `json:"armorClass"`
-	Health int32 `json:"health"`
-	Weapon Weapon `json:"weapon"`
-
+	Name        string     `json:"name"`
+	Race        string     `json:"race"`
+	Class       string     `json:"class"`
+	Level       int16      `json:"level"`
+	Attributes  Attributes `json:"attributes"`
+	ArmourClass int16      `json:"armourClass"`
+	Health      int32      `json:"health"`
+	Weapon      Weapon     `json:"weapon"`
 }
 
 type Attributes struct {
@@ -22,8 +21,8 @@ type Attributes struct {
 }
 
 type Weapon struct {
-	Name string `json:"name"`
-	Attribute string `json:"attribute"`
+	Name       string `json:"name"`
+	Attribute  string `json:"attribute"`
 	DamageType string `json:"damageType"`
 	DamageRoll string `json:"damageRoll"`
 }

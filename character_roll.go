@@ -1,23 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
 func rollWeaponDamage(character Character) int {
 	damageRoll := roll(character.Weapon.DamageRoll)
-	fmt.Printf("damageRoll: %v\n", damageRoll)
-	return damageRoll + calculateDamageMod(character, character.Weapon.Attribute)
+	//fmt.Printf("damageRoll: %v\n", damageRoll)
+	return damageRoll + calculateAttributeMod(character, character.Weapon.Attribute)
 
 }
 
-func calculateDamageMod(character Character, attribute string) int {
+func calculateAttributeMod(character Character, attribute string) int {
 	attributeValue := getAttribute(character, attribute)
-	fmt.Printf("attributeValue: %v\n", attributeValue)
+	//fmt.Printf("attributeValue: %v\n", attributeValue)
 
-	damageMod := int(math.Floor(float64(attributeValue - 10) / 2))
-	fmt.Printf("damageMod: %v\n", damageMod)
+	damageMod := int(math.Floor(float64(attributeValue-10) / 2))
+	//fmt.Printf("damageMod: %v\n", damageMod)
 
 	return damageMod
 }
@@ -40,4 +39,3 @@ func getAttribute(character Character, attribute string) int {
 
 	return -1
 }
-

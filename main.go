@@ -7,5 +7,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(rollWeaponDamage(character))
+
+	fmt.Printf("%v %v\n", rollWeaponDamage(character), character.Weapon.DamageType)
 }
