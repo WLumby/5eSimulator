@@ -2,67 +2,76 @@ package main
 
 import "fmt"
 
+var (
+	playerCharacter Character
+	enemy           Character
+)
+
+const (
+	iterations = 100000
+)
+
 func main() {
-	playerCharacter, err := getCharacter("./sheets/test_paladin.json")
+	var err error
+
+	playerCharacter, err = getCharacter("./sheets/test_paladin.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := getCharacter("./sheets/test_enemy.json")
+
+	enemy, err = getCharacter("./sheets/test_enemy.json")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	dead := false
 
-	for !dead {
-		attackRoll, attackDamage, damageType, crit := rollWeapon(playerCharacter)
-		if crit {
-			fmt.Printf("%v --- Attack Roll: %v (CRIT!), Damage: %v %v\n", playerCharacter.Name, attackRoll, attackDamage, damageType)
-		} else {
-			fmt.Printf("%v --- Attack Roll: %v, Damage: %v %v\n", playerCharacter.Name, attackRoll, attackDamage, damageType)
+
+	for i := 0; i < iterations; i++ {
+		endCombat := false
+		winner := Character{}
+
+		for !endCombat {
+			winner, endCombat = attackRound()
 		}
 
-		if attackRoll >= int(enemy.ArmourClass) {
-			fmt.Printf("HIT on %v for %v %v damage!\n\n", enemy.Name, attackDamage, damageType)
-			enemy.Health = int32(int(enemy.Health) - attackDamage)
-			if enemy.Health <= 0 {
-				dead = true
-				fmt.Printf("%v dies!", enemy.Name)
-				break
-			}
-		} else {
-			fmt.Printf("MISS on %v!\n\n", enemy.Name)
+		if playerCharacter.Name == winner.Name {
+			playerCharacter.WinCount++
+		} else if enemy.Name == winner.Name {
+			enemy.WinCount++
 		}
-
-		attackRoll, attackDamage, damageType, crit = rollWeapon(enemy)
-		if crit {
-			fmt.Printf("%v --- Attack Roll: %v (CRIT!), Damage: %v %v\n", enemy.Name, attackRoll, attackDamage, damageType)
-		} else {
-			fmt.Printf("%v --- Attack Roll: %v, Damage: %v %v\n", enemy.Name, attackRoll, attackDamage, damageType)
-		}
-
-		if attackRoll >= int(playerCharacter.ArmourClass) {
-			fmt.Printf("HIT on %v for %v %v damage!\n\n", playerCharacter.Name, attackDamage, damageType)
-			playerCharacter.Health = int32(int(playerCharacter.Health) - attackDamage)
-			if playerCharacter.Health <= 0 {
-				dead = true
-				fmt.Printf("%v dies!", playerCharacter.Name)
-				break
-			}
-		} else {
-			fmt.Printf("MISS on %v!\n\n", playerCharacter.Name)
-		}
-
-		fmt.Printf("\nPlayer Health: ")
-		for i := 0; i < int(playerCharacter.Health); i++ {
-			fmt.Printf("-")
-		}
-		fmt.Println()
-
-		fmt.Printf("Enemy  Health: ")
-		for i := 0; i < int(enemy.Health); i++ {
-			fmt.Printf("-")
-		}
-		fmt.Println("\n")
 	}
+
+	if playerCharacter.WinCount > enemy.WinCount {
+		fmt.Printf("Likely winner: %v\n", playerCharacter.Name)
+		fmt.Printf("Winrate: %v percent\n", float64(playerCharacter.WinCount)/float64(iterations)*100)
+	} else if playerCharacter.WinCount < enemy.WinCount {
+		fmt.Printf("Likely winner: %v\n", enemy.Name)
+		fmt.Printf("Winrate: %v percent\n", float64(enemy.WinCount)/float64(iterations)*100)
+
+	}
+}
+
+func attackRound() (Character, bool) {
+
+	// PLAYER ATTACK
+	attackRoll, attackDamage, _, _ := rollWeapon(playerCharacter)
+
+	if attackRoll >= int(enemy.ArmourClass) {
+		enemy.Health = int32(int(enemy.Health) - attackDamage)
+		if enemy.Health <= 0 {
+			return playerCharacter, true
+		}
+	}
+
+	// ENEMY ATTACK
+	attackRoll, attackDamage, _, _ = rollWeapon(enemy)
+
+	if attackRoll >= int(playerCharacter.ArmourClass) {
+		playerCharacter.Health = int32(int(playerCharacter.Health) - attackDamage)
+		if playerCharacter.Health <= 0 {
+			return enemy, true
+		}
+	}
+
+	return Character{}, false
 }

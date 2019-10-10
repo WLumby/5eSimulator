@@ -9,6 +9,7 @@ type Character struct {
 	ArmourClass int16      `json:"armourClass"`
 	Health      int32      `json:"health"`
 	Weapon      Weapon     `json:"weapon"`
+	WinCount    int
 }
 
 type Attributes struct {
