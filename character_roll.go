@@ -24,7 +24,7 @@ func rollWeaponDamage(character Character, crit bool) int {
 }
 
 func rollAttack(character Character) (int, bool) {
-	crit := false
+	var crit bool
 
 	d20Roll := roll("1d20")
 
@@ -38,7 +38,7 @@ func rollAttack(character Character) (int, bool) {
 }
 
 func calcProficiency(character Character) int {
-	//unimplemented
+	// TODO: Add proficiency map
 	return 2
 }
 

@@ -2,7 +2,7 @@
   "name": "John Palawin",
   "race": "Human",
   "class": "Paladin",
-  "level": 1,
+  "level": 2,
 
   "attributes": {
     "STR": 14,
@@ -21,5 +21,20 @@
       "attribute": "STR",
       "damageType": "Bludgeoning",
       "damageRoll": "1d8"
+    },
+
+  "spellSlots": {
+    "1stLevel": 2
+  },
+
+  "spells": [
+    {
+      "name": "Divine Smite",
+      "castType": "onMeleeWeaponHit",
+      "damageType": "Radiant",
+      "damageRoll": "2d8",
+      "higherCastingDamageRoll": "1d8",
+      "spellSlotLevel": 1
     }
+  ]
 }

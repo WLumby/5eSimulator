@@ -9,6 +9,7 @@ type Character struct {
 	ArmourClass int16      `json:"armourClass"`
 	Health      int32      `json:"health"`
 	Weapon      Weapon     `json:"weapon"`
+	Spells      []Spell    `json:"spells"`
 	WinCount    int
 }
 
@@ -26,4 +27,13 @@ type Weapon struct {
 	Attribute  string `json:"attribute"`
 	DamageType string `json:"damageType"`
 	DamageRoll string `json:"damageRoll"`
+}
+
+type Spell struct {
+	Name                    string `json:"name"`
+	CastType                string `json:"castType"`
+	DamageType              string `json:"damageType"`
+	DamageRoll              string `json:"damageRoll"`
+	HigherCastingDamageRoll string `json:"higherCastingDamageRoll"`
+	SpellSlotLevel          int    `json:"spellSlotLevel"`
 }

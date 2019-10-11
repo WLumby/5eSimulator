@@ -8,7 +8,7 @@ var (
 )
 
 const (
-	iterations = 100000
+	iterations = 10000
 )
 
 func main() {

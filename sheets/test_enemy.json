@@ -1,7 +1,7 @@
 {
-  "name": "Kobe the Kobold",
+  "name": "Kobe",
   "race": "Kobold",
-  "level": 0.15,
+  "level": 0.4,
 
   "attributes": {
     "STR": 12,
@@ -12,13 +12,13 @@
     "CHA": 8
   },
 
-  "armourClass": 12,
+  "armourClass": 13,
   "health": 16,
 
   "weapon": {
-    "name": "Dagger",
+    "name": "Greatsword",
     "attribute": "STR",
-    "damageType": "Piercing",
-    "damageRoll": "1d6"
+    "damageType": "Slashing",
+    "damageRoll": "1d12"
   }
 }
