@@ -59,6 +59,10 @@ func rollSpell(character Character, spell Spell) (int, bool) {
 	return d20Roll + damageMod + proficiency, crit
 }
 
+func rollInitiative(character Character) int {
+	return roll("1d20") + calculateAttributeMod(character, "DEX")
+}
+
 func calcProficiency(character Character) int {
 	// TODO: Add proficiency map
 	return 2

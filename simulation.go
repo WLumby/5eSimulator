@@ -61,14 +61,29 @@ func simEncounter() {
 	endCombat := false
 	winner := Character{}
 
+	firstAttack := calcFirstAttack(iterablePlayer, iterableEnemy)
+
+	fmt.Println(firstAttack)
+
 	for !endCombat {
-		winner, endCombat = attackRound(&iterablePlayer, &iterableEnemy)
+		winner, endCombat = attackRound(&iterablePlayer, &iterableEnemy, firstAttack)
 	}
 
 	if playerCharacter.Name == winner.Name {
 		playerWinCount++
 	} else if enemy.Name == winner.Name {
 		enemyWinCount++
+	}
+}
+
+func calcFirstAttack(iterablePlayer, iterableEnemy Character) string {
+	playerInitiative := rollInitiative(iterablePlayer)
+	enemyInitiative := rollInitiative(iterableEnemy)
+
+	if playerInitiative >= enemyInitiative {
+		return "player"
+	} else {
+		return "enemy"
 	}
 }
 

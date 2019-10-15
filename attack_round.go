@@ -1,34 +1,56 @@
 package main
 
-func attackRound(playerC, enemyC *Character) (Character, bool) {
+func attackRound(playerC, enemyC *Character, firstAttack string) (Character, bool) {
 
+	if firstAttack == "player" {
+		if playerAttack(playerC, enemyC) {
+			return *playerC, true
+		}
+		if enemyAttack(playerC, enemyC) {
+			return *enemyC, true
+		}
+	} else if firstAttack == "enemy" {
+		if enemyAttack(playerC, enemyC) {
+			return *enemyC, true
+		}
+		if playerAttack(playerC, enemyC) {
+			return *playerC, true
+		}
+	}
+	return Character{}, false
+}
+
+func playerAttack(playerC, enemyC *Character) bool {
 	// PLAYER ATTACK
 	attackRoll, attackDamage := handleClass(*playerC, *enemyC, playerC.Class)
-
 	if attackRoll >= enemyC.ArmourClass {
 		enemyC.Health = enemyC.Health - attackDamage
 		playerDPT = append(playerDPT, float64(attackDamage))
 		if enemyC.Health <= 0 {
-			return *playerC, true
+			return true
 		}
 	} else {
 		playerDPT = append(playerDPT, float64(0))
 	}
 
+	return false
+}
+
+func enemyAttack(playerC, enemyC *Character) bool {
 	// ENEMY ATTACK
-	attackRoll, attackDamage = handleClass(*enemyC, *playerC, enemyC.Class)
+	attackRoll, attackDamage := handleClass(*enemyC, *playerC, enemyC.Class)
 
 	if attackRoll >= playerC.ArmourClass {
 		playerC.Health = playerC.Health - attackDamage
 		enemyDPT = append(enemyDPT, float64(attackDamage))
 		if playerC.Health <= 0 {
-			return enemy, true
+			return true
 		}
 	} else {
 		enemyDPT = append(enemyDPT, float64(0))
 	}
 
-	return Character{}, false
+	return false
 }
 
 func handleClass(self, target Character, class string) (int, int) {
