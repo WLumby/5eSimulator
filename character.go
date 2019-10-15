@@ -6,20 +6,21 @@ type Character struct {
 	Class       string     `json:"class"`
 	Level       float64    `json:"level"`
 	Attributes  Attributes `json:"attributes"`
-	ArmourClass int16      `json:"armourClass"`
-	Health      int32      `json:"health"`
+	ArmourClass int        `json:"armourClass"`
+	Health      int        `json:"health"`
 	Weapon      Weapon     `json:"weapon"`
 	Spells      []Spell    `json:"spells"`
+	SpellSlots  SpellSlots `json:"spellSlots"`
 	WinCount    int
 }
 
 type Attributes struct {
-	STR int16 `json:"STR"`
-	DEX int16 `json:"DEX"`
-	CON int16 `json:"CON"`
-	INT int16 `json:"INT"`
-	WIS int16 `json:"WIS"`
-	CHA int16 `json:"CHA"`
+	STR int `json:"STR"`
+	DEX int `json:"DEX"`
+	CON int `json:"CON"`
+	INT int `json:"INT"`
+	WIS int `json:"WIS"`
+	CHA int `json:"CHA"`
 }
 
 type Weapon struct {
@@ -27,6 +28,10 @@ type Weapon struct {
 	Attribute  string `json:"attribute"`
 	DamageType string `json:"damageType"`
 	DamageRoll string `json:"damageRoll"`
+}
+
+type SpellSlots struct {
+	firstLevel int `json:"firstLevel"`
 }
 
 type Spell struct {

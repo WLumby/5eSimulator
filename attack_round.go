@@ -5,8 +5,8 @@ func attackRound() (Character, bool) {
 	// PLAYER ATTACK
 	attackRoll, attackDamage, _, _ := rollWeapon(playerCharacter)
 
-	if attackRoll >= int(enemy.ArmourClass) {
-		enemy.Health = int32(int(enemy.Health) - attackDamage)
+	if attackRoll >= enemy.ArmourClass {
+		enemy.Health = enemy.Health - attackDamage
 		playerDPT = append(playerDPT, float64(attackDamage))
 		if enemy.Health <= 0 {
 			return playerCharacter, true
@@ -19,7 +19,7 @@ func attackRound() (Character, bool) {
 	attackRoll, attackDamage, _, _ = rollWeapon(enemy)
 
 	if attackRoll >= int(playerCharacter.ArmourClass) {
-		playerCharacter.Health = int32(int(playerCharacter.Health) - attackDamage)
+		playerCharacter.Health = playerCharacter.Health - attackDamage
 		enemyDPT = append(enemyDPT, float64(attackDamage))
 		if playerCharacter.Health <= 0 {
 			return enemy, true

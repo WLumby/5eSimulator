@@ -55,17 +55,17 @@ func calculateAttributeMod(character Character, attribute string) int {
 func getAttribute(character Character, attribute string) int {
 	switch attribute {
 	case "STR":
-		return int(character.Attributes.STR)
+		return character.Attributes.STR
 	case "DEX":
-		return int(character.Attributes.DEX)
+		return character.Attributes.DEX
 	case "CON":
-		return int(character.Attributes.CON)
+		return character.Attributes.CON
 	case "INT":
-		return int(character.Attributes.INT)
+		return character.Attributes.INT
 	case "WIS":
-		return int(character.Attributes.WIS)
+		return character.Attributes.WIS
 	case "CHA":
-		return int(character.Attributes.CHA)
+		return character.Attributes.CHA
 	}
 
 	return -1
