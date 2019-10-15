@@ -1,27 +1,27 @@
 package main
 
-func attackRound() (Character, bool) {
+func attackRound(playerC, enemyC *Character) (Character, bool) {
 
 	// PLAYER ATTACK
-	attackRoll, attackDamage := handleClass(playerCharacter, enemy, playerCharacter.Class)
+	attackRoll, attackDamage := handleClass(*playerC, *enemyC, playerC.Class)
 
-	if attackRoll >= enemy.ArmourClass {
-		enemy.Health = enemy.Health - attackDamage
+	if attackRoll >= enemyC.ArmourClass {
+		enemyC.Health = enemyC.Health - attackDamage
 		playerDPT = append(playerDPT, float64(attackDamage))
-		if enemy.Health <= 0 {
-			return playerCharacter, true
+		if enemyC.Health <= 0 {
+			return *playerC, true
 		}
 	} else {
 		playerDPT = append(playerDPT, float64(0))
 	}
 
 	// ENEMY ATTACK
-	attackRoll, attackDamage = handleClass(enemy, playerCharacter, enemy.Class)
+	attackRoll, attackDamage = handleClass(*enemyC, *playerC, enemyC.Class)
 
-	if attackRoll >= playerCharacter.ArmourClass {
-		playerCharacter.Health = playerCharacter.Health - attackDamage
+	if attackRoll >= playerC.ArmourClass {
+		playerC.Health = playerC.Health - attackDamage
 		enemyDPT = append(enemyDPT, float64(attackDamage))
-		if playerCharacter.Health <= 0 {
+		if playerC.Health <= 0 {
 			return enemy, true
 		}
 	} else {
@@ -31,7 +31,7 @@ func attackRound() (Character, bool) {
 	return Character{}, false
 }
 
-func handleClass(self Character, target Character, class string) (int, int) {
+func handleClass(self, target Character, class string) (int, int) {
 	attackRoll := 0
 	attackDamage := 0
 
@@ -45,7 +45,7 @@ func handleClass(self Character, target Character, class string) (int, int) {
 	return attackRoll, attackDamage
 }
 
-func handlePaladin(self Character, target Character) (int, int) {
+func handlePaladin(self, target Character) (int, int) {
 	attackRoll := 0
 	attackDamage := 0
 

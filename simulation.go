@@ -17,30 +17,19 @@ var (
 func runSim(playerPath, enemyPath string, iterations int) {
 	var err error
 
+	playerCharacter, err = getCharacter(playerPath)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	enemy, err = getCharacter(enemyPath)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	start := time.Now()
 	for i := 0; i < iterations; i++ {
-		playerCharacter, err = getCharacter(playerPath)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		enemy, err = getCharacter(enemyPath)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		endCombat := false
-		winner := Character{}
-
-		for !endCombat {
-			winner, endCombat = attackRound()
-		}
-
-		if playerCharacter.Name == winner.Name {
-			playerWinCount++
-		} else if enemy.Name == winner.Name {
-			enemyWinCount++
-		}
+		simEncounter()
 	}
 
 	playerAverageDPT := calcAverage(playerDPT)
@@ -49,6 +38,7 @@ func runSim(playerPath, enemyPath string, iterations int) {
 	t := time.Now()
 	elapsed := t.Sub(start)
 	fmt.Printf("Finished after %v!\n\nResults:\n---------------------\n", elapsed)
+
 
 	fmt.Printf("Player Win Count: %v\nEnemy Win Count: %v\n", playerWinCount, enemyWinCount)
 
@@ -62,6 +52,24 @@ func runSim(playerPath, enemyPath string, iterations int) {
 
 	fmt.Printf("Player Avg DPT: %v\n", playerAverageDPT)
 	fmt.Printf("Enemy Avg DPT: %v\n", enemyAverageDPT)
+}
+
+func simEncounter() {
+	iterablePlayer := playerCharacter
+	iterableEnemy := enemy
+
+	endCombat := false
+	winner := Character{}
+
+	for !endCombat {
+		winner, endCombat = attackRound(&iterablePlayer, &iterableEnemy)
+	}
+
+	if playerCharacter.Name == winner.Name {
+		playerWinCount++
+	} else if enemy.Name == winner.Name {
+		enemyWinCount++
+	}
 }
 
 func calcAverage(dataSet []float64) float64 {

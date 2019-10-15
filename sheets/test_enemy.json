@@ -13,8 +13,8 @@
     "CHA": 8
   },
 
-  "armourClass": 13,
-  "health": 16,
+  "armourClass": 14,
+  "health": 25,
 
   "weapon": {
     "name": "Greatsword",
