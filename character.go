@@ -11,7 +11,6 @@ type Character struct {
 	Weapon      Weapon     `json:"weapon"`
 	Spells      []Spell    `json:"spells"`
 	SpellSlots  SpellSlots `json:"spellSlots"`
-	WinCount    int
 }
 
 type Attributes struct {
@@ -31,7 +30,7 @@ type Weapon struct {
 }
 
 type SpellSlots struct {
-	firstLevel int `json:"firstLevel"`
+	FirstLevel int `json:"firstLevel"`
 }
 
 type Spell struct {
