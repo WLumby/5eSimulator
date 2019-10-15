@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/briandowns/spinner"
+	"sync"
 	"time"
 )
 
@@ -27,22 +29,29 @@ func runSim(playerPath, enemyPath string, iterations int) {
 		fmt.Println(err)
 	}
 
+	s := spinner.New(spinner.CharSets[36], time.Duration(iterations/50)*time.Millisecond)
+	s.Start()
+
+	var wg sync.WaitGroup
+	wg.Add(iterations)
 	start := time.Now()
 	for i := 0; i < iterations; i++ {
-		simEncounter()
+		go simEncounter(&wg)
 	}
 
-	playerAverageDPT := calcAverage(playerDPT)
-	enemyAverageDPT := calcAverage(enemyDPT)
+	wg.Wait()
+	s.Stop()
 
 	t := time.Now()
 	elapsed := t.Sub(start)
 	fmt.Printf("Finished after %v!\n\nResults:\n---------------------\n", elapsed)
 
+	playerAverageDPT := calcAverage(playerDPT)
+	enemyAverageDPT := calcAverage(enemyDPT)
 
 	fmt.Printf("Player Win Count: %v\nEnemy Win Count: %v\n", playerWinCount, enemyWinCount)
 
-	if playerWinCount > enemyWinCount {
+	if playerWinCount >= enemyWinCount {
 		fmt.Printf("Likely winner: %v\n", playerCharacter.Name)
 		fmt.Printf("Winrate: %v percent\n", float64(playerWinCount)/float64(iterations)*100)
 	} else if playerWinCount < enemyWinCount {
@@ -54,7 +63,7 @@ func runSim(playerPath, enemyPath string, iterations int) {
 	fmt.Printf("Enemy Avg DPT: %v\n", enemyAverageDPT)
 }
 
-func simEncounter() {
+func simEncounter(wg *sync.WaitGroup) {
 	iterablePlayer := playerCharacter
 	iterableEnemy := enemy
 
@@ -62,8 +71,6 @@ func simEncounter() {
 	winner := Character{}
 
 	firstAttack := calcFirstAttack(iterablePlayer, iterableEnemy)
-
-	fmt.Println(firstAttack)
 
 	for !endCombat {
 		winner, endCombat = attackRound(&iterablePlayer, &iterableEnemy, firstAttack)
@@ -74,6 +81,8 @@ func simEncounter() {
 	} else if enemy.Name == winner.Name {
 		enemyWinCount++
 	}
+
+	wg.Done()
 }
 
 func calcFirstAttack(iterablePlayer, iterableEnemy Character) string {
