@@ -13,6 +13,14 @@ func rollWeapon(character Character) (int, int, string, bool) {
 	return attackRoll, weaponDamage, damageType, crit
 }
 
+func rollCastSpell(character Character, spell Spell) (int, int, string, bool) {
+	attackRoll, crit := rollSpell(character, spell)
+	spellDamage := roll(spell.DamageRoll)
+	spellDamageType := spell.DamageType
+
+	return attackRoll, spellDamage, spellDamageType, crit
+}
+
 func rollWeaponDamage(character Character, crit bool) int {
 	critDamageRoll := 0
 
@@ -37,6 +45,20 @@ func rollAttack(character Character) (int, bool) {
 	return d20Roll + damageMod + proficiency, crit
 }
 
+func rollSpell(character Character, spell Spell) (int, bool) {
+	var crit bool
+
+	d20Roll := roll("1d20")
+
+	if d20Roll == 20 {
+		crit = true
+	}
+
+	damageMod := calculateAttributeMod(character, spell.Attribute)
+	proficiency := calcProficiency(character)
+	return d20Roll + damageMod + proficiency, crit
+}
+
 func calcProficiency(character Character) int {
 	// TODO: Add proficiency map
 	return 2
@@ -44,10 +66,7 @@ func calcProficiency(character Character) int {
 
 func calculateAttributeMod(character Character, attribute string) int {
 	attributeValue := getAttribute(character, attribute)
-	//fmt.Printf("attributeValue: %v\n", attributeValue)
-
 	damageMod := int(math.Floor(float64(attributeValue-10) / 2))
-	//fmt.Printf("damageMod: %v\n", damageMod)
 
 	return damageMod
 }

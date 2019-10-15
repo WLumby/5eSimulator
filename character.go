@@ -35,6 +35,7 @@ type SpellSlots struct {
 
 type Spell struct {
 	Name                    string `json:"name"`
+	Attribute               string `json:"attribute"`
 	CastType                string `json:"castType"`
 	DamageType              string `json:"damageType"`
 	DamageRoll              string `json:"damageRoll"`
