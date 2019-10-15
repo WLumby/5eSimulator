@@ -5,6 +5,8 @@ import "fmt"
 var (
 	playerCharacter Character
 	enemy           Character
+	playerDPT       []float64
+	enemyDPT        []float64
 )
 
 const (
@@ -24,8 +26,6 @@ func main() {
 		fmt.Println(err)
 	}
 
-
-
 	for i := 0; i < iterations; i++ {
 		endCombat := false
 		winner := Character{}
@@ -41,14 +41,19 @@ func main() {
 		}
 	}
 
+	playerAverageDPT := calcAverage(playerDPT)
+	enemyAverageDPT := calcAverage(enemyDPT)
+
 	if playerCharacter.WinCount > enemy.WinCount {
 		fmt.Printf("Likely winner: %v\n", playerCharacter.Name)
 		fmt.Printf("Winrate: %v percent\n", float64(playerCharacter.WinCount)/float64(iterations)*100)
 	} else if playerCharacter.WinCount < enemy.WinCount {
 		fmt.Printf("Likely winner: %v\n", enemy.Name)
 		fmt.Printf("Winrate: %v percent\n", float64(enemy.WinCount)/float64(iterations)*100)
-
 	}
+
+	fmt.Printf("Player Avg DPT: %v\n", playerAverageDPT)
+	fmt.Printf("Enemy Avg DPT: %v\n", enemyAverageDPT)
 }
 
 func attackRound() (Character, bool) {
@@ -58,9 +63,12 @@ func attackRound() (Character, bool) {
 
 	if attackRoll >= int(enemy.ArmourClass) {
 		enemy.Health = int32(int(enemy.Health) - attackDamage)
+		playerDPT = append(playerDPT, float64(attackDamage))
 		if enemy.Health <= 0 {
 			return playerCharacter, true
 		}
+	} else {
+		playerDPT = append(playerDPT, float64(0))
 	}
 
 	// ENEMY ATTACK
@@ -68,10 +76,21 @@ func attackRound() (Character, bool) {
 
 	if attackRoll >= int(playerCharacter.ArmourClass) {
 		playerCharacter.Health = int32(int(playerCharacter.Health) - attackDamage)
+		enemyDPT = append(enemyDPT, float64(attackDamage))
 		if playerCharacter.Health <= 0 {
 			return enemy, true
 		}
+	} else {
+		enemyDPT = append(enemyDPT, float64(0))
 	}
 
 	return Character{}, false
+}
+
+func calcAverage(dataSet []float64) float64 {
+	var total float64 = 0
+	for _, value:= range dataSet {
+		total += value
+	}
+	return total/float64(len(dataSet))
 }
