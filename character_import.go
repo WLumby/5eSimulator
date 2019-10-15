@@ -21,7 +21,5 @@ func getCharacter(filename string) (Character, error) {
 		return Character{}, errors.New(fmt.Sprintf("failed to unmarshal JSON, %v", err))
 	}
 
-	fmt.Printf("%v\n", character)
-
 	return character, nil
 }

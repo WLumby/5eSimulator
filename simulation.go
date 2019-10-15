@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var (
 	playerCharacter Character
@@ -15,16 +17,16 @@ const (
 	iterations = 10000
 )
 
-func main() {
+func runSim(playerPath, enemyPath string) {
 	var err error
 
 	for i := 0; i < iterations; i++ {
-		playerCharacter, err = getCharacter("./sheets/test_paladin.json")
+		playerCharacter, err = getCharacter(playerPath)
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		enemy, err = getCharacter("./sheets/test_enemy.json")
+		enemy, err = getCharacter(enemyPath)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -45,6 +47,8 @@ func main() {
 
 	playerAverageDPT := calcAverage(playerDPT)
 	enemyAverageDPT := calcAverage(enemyDPT)
+
+	fmt.Printf("Player Win Count: %v\nEnemy Win Count: %v\n", playerWinCount, enemyWinCount)
 
 	if playerWinCount > enemyWinCount {
 		fmt.Printf("Likely winner: %v\n", playerCharacter.Name)

@@ -1,5 +1,6 @@
 {
   "name": "Kobe",
+  "class": "Crazed",
   "race": "Kobold",
   "level": 0.4,
 
@@ -20,5 +21,16 @@
     "attribute": "STR",
     "damageType": "Slashing",
     "damageRoll": "1d12"
-  }
+  },
+
+  "spells": [
+    {
+      "name": "Fire Bolt",
+      "castType": "cantrip",
+      "damageType": "Fire",
+      "damageRoll": "1d10",
+      "higherCastingDamageRoll": "1d10",
+      "spellSlotLevel": 0
+    }
+  ]
 }
