@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"io/ioutil"
+	"strconv"
 )
 
 var (
@@ -24,6 +26,10 @@ func main() {
 	}
 
 	_, playerPath, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
 
 	prompt = promptui.Select{
 		Label: "Select Enemy",
@@ -31,7 +37,17 @@ func main() {
 	}
 
 	_, enemyPath, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
 
+	promptP := promptui.Prompt{
+		Label:    "Sim Iterations",
+		Validate: validate,
+	}
+
+	iterations, err := promptP.Run()
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
@@ -40,5 +56,14 @@ func main() {
 	playerPath = baseSheetsDirectory + playerPath
 	enemyPath = baseSheetsDirectory + enemyPath
 
-	runSim(playerPath, enemyPath)
+	iterationsVal, err := strconv.ParseInt(iterations, 10,64)
+	runSim(playerPath, enemyPath, int(iterationsVal))
+}
+
+func validate(input string) error {
+	_, err := strconv.ParseInt(input, 10, 64)
+	if err != nil {
+		return errors.New("Invalid number")
+	}
+	return nil
 }

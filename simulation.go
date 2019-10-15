@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 var (
@@ -13,13 +14,10 @@ var (
 	enemyDPT        []float64
 )
 
-const (
-	iterations = 10000
-)
-
-func runSim(playerPath, enemyPath string) {
+func runSim(playerPath, enemyPath string, iterations int) {
 	var err error
 
+	start := time.Now()
 	for i := 0; i < iterations; i++ {
 		playerCharacter, err = getCharacter(playerPath)
 		if err != nil {
@@ -47,6 +45,10 @@ func runSim(playerPath, enemyPath string) {
 
 	playerAverageDPT := calcAverage(playerDPT)
 	enemyAverageDPT := calcAverage(enemyDPT)
+
+	t := time.Now()
+	elapsed := t.Sub(start)
+	fmt.Printf("Finished after %v!\n\nResults:\n---------------------\n", elapsed)
 
 	fmt.Printf("Player Win Count: %v\nEnemy Win Count: %v\n", playerWinCount, enemyWinCount)
 
