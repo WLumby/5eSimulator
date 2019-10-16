@@ -53,14 +53,14 @@ func runSim(playerPath, enemyPath string, iterations int) {
 
 	if playerWinCount >= enemyWinCount {
 		fmt.Printf("Likely winner: %v\n", playerCharacter.Name)
-		fmt.Printf("Winrate: %v percent\n", float64(playerWinCount)/float64(iterations)*100)
+		fmt.Printf("Winrate: %.2f%%\n", float64(playerWinCount)/float64(iterations)*100)
 	} else if playerWinCount < enemyWinCount {
 		fmt.Printf("Likely winner: %v\n", enemy.Name)
-		fmt.Printf("Winrate: %v percent\n", float64(enemyWinCount)/float64(iterations)*100)
+		fmt.Printf("Winrate: %.2f percent\n", float64(enemyWinCount)/float64(iterations)*100)
 	}
 
-	fmt.Printf("Player Avg DPT: %v\n", playerAverageDPT)
-	fmt.Printf("Enemy Avg DPT: %v\n", enemyAverageDPT)
+	fmt.Printf("Player Avg DPT: %.2f (%.2f%%)\n", playerAverageDPT, (playerAverageDPT/float64(enemy.Health))*100)
+	fmt.Printf("Enemy Avg DPT: %.2f (%.2f%%)\n", enemyAverageDPT, (enemyAverageDPT/float64(playerCharacter.Health))*100)
 }
 
 func simEncounter(wg *sync.WaitGroup) {
