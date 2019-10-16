@@ -11,7 +11,7 @@ the `/sheets/` directory. Two examples can be seen there already.
 
 ### Usage
 
-![5ESimulator Terminal Demo](wiki/demo.gif)
+![5ESim Terminal Demo](wiki/demo.gif)
 
 Navigate to `/bin/` and execute:
 ```
